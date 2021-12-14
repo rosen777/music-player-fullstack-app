@@ -32,7 +32,7 @@ const AuthForm: FC<{ mode: "signin" | "signup" }> = ({ mode }) => {
       </Flex>
       <Flex justify="center" align="center" height="calc(100vh-100px)">
         <Box padding="50px" bg="gray900" borderRadius="6px">
-          <form>
+          <form onSubmit={handleSubmit}>
             <Input
               placeholder="email"
               type="email"
@@ -47,7 +47,6 @@ const AuthForm: FC<{ mode: "signin" | "signup" }> = ({ mode }) => {
               type="submit"
               bg="green.500"
               isLoading={isLoading}
-              onPress={handleSubmit}
               sx={{
                 "&:hover": {
                   bg: "green.300",
