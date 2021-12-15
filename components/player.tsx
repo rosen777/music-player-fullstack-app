@@ -26,10 +26,10 @@ import { formatTime } from "../lib/formatter";
 
 const Player = ({ songs, activeSong }) => {
   const [playing, setPlaying] = useState(true);
-  const [index, setIndex] = useState(0);
-  const [seek, setSeek] = useState(
+  const [index, setIndex] = useState(
     songs.findIndex((s) => s.id === activeSong.id)
   );
+  const [seek, setSeek] = useState(0.0);
   const [isSeeking, setIsSeeking] = useState(false);
   const [repeat, setRepeat] = useState(false);
   const [shuffle, setShuffle] = useState(false);
@@ -58,7 +58,7 @@ const Player = ({ songs, activeSong }) => {
   }, [index, setActiveSong, songs]);
 
   useEffect(() => {
-    setRepeat(repeatRef.current);
+    repeatRef.current = repeat;
   }, [repeat]);
 
   const setPlayState = (value: boolean) => {
@@ -81,22 +81,20 @@ const Player = ({ songs, activeSong }) => {
 
   const nextSong = () => {
     setIndex((state) => {
-      setIndex((state) => {
-        if (shuffle) {
-          const next = Math.floor(Math.random() * songs.length);
+      if (shuffle) {
+        const next = Math.floor(Math.random() * songs.length);
 
-          if (next === state) {
-            return nextSong();
-          }
-          return next;
+        if (next === state) {
+          return nextSong();
         }
-        return state === songs.length - 1 ? 0 : state + 1;
-      });
+        return next;
+      }
+      return state === songs.length - 1 ? 0 : state + 1;
     });
   };
 
   const onEnd = () => {
-    if (repeat) {
+    if (repeatRef.current) {
       setSeek(0);
       soundRef.current.seek(0);
     } else {
@@ -179,7 +177,7 @@ const Player = ({ songs, activeSong }) => {
             aria-label="repeat"
             onClick={onRepeat}
             fontSize="24px"
-            color={shuffle ? "white" : "gray.600"}
+            color={repeat ? "white" : "gray.600"}
             icon={<MdOutlineRepeat />}
           />
         </ButtonGroup>
