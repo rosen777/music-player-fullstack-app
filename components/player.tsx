@@ -27,7 +27,9 @@ import { formatTime } from "../lib/formatter";
 const Player = ({ songs, activeSong }) => {
   const [playing, setPlaying] = useState(true);
   const [index, setIndex] = useState(0);
-  const [seek, setSeek] = useState((s) => s.id === activeSong.id);
+  const [seek, setSeek] = useState(
+    songs.findIndex((s) => s.id === activeSong.id)
+  );
   const [isSeeking, setIsSeeking] = useState(false);
   const [repeat, setRepeat] = useState(false);
   const [shuffle, setShuffle] = useState(false);
