@@ -19,7 +19,7 @@ import {
 } from "react-icons/md";
 import { usePlaylist } from "../lib/hooks";
 
-const navmenu = [
+const navMenu = [
   {
     name: "Home",
     icon: MdHome,
@@ -67,7 +67,7 @@ const Sidebar = () => {
         </Box>
         <Box marginBottom="20px">
           <List spacing={2}>
-            {navmenu.map((menu) => (
+            {navMenu.map((menu) => (
               <ListItem paddingX="20px" fontSize="16px" key={menu.name}>
                 <LinkBox>
                   <NextLink href={menu.route} passHref>
@@ -111,7 +111,13 @@ const Sidebar = () => {
             {playlists.map((playlist) => (
               <ListItem paddingX="20px" key={playlist.id}>
                 <LinkBox>
-                  <NextLink href="/" passHref>
+                  <NextLink
+                    href={{
+                      pathname: "/playlist/[id]",
+                      query: { id: playlist.id },
+                    }}
+                    passHref
+                  >
                     <LinkOverlay>{playlist.name}</LinkOverlay>
                   </NextLink>
                 </LinkBox>
